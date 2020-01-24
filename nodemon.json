@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "exec": "DEBUG=zigzag:* ts-node ./src/Application.ts",
+  "env": {
+    "PORT": 8999
+  }
+}
