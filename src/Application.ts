@@ -1,12 +1,22 @@
-import express from 'express';
 import http from 'http';
-import * as WebSocket from 'ws';
+
+import cors from 'cors';
 import debug from 'debug';
+import express from 'express';
+import * as WebSocket from 'ws';
+
+import { users } from './fixtures/user/users';
+import { IUser } from './models/user/IUser';
 
 const log = debug('zigzag:Application');
 const PORT = process.env.PORT || 8999;
 
 const app = express();
+
+app.use(cors());
+app.get('/list', (_, res) => {
+  return res.send(JSON.stringify(users));
+});
 
 //initialize a simple http server
 const server = http.createServer(app);

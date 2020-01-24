@@ -1,7 +1,7 @@
 import { IUser } from '../../models/user/IUser';
 import { format } from '../../utils/format';
 
-const users: IUser[] = [
+export const users: IUser[] = [
   {
     profile:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQndOlUy8bWKd7i3ucOYJc_o-Ng0SMZFVc5TWXz1vZSbznZcR1rVw&s',
