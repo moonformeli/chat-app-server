@@ -7,6 +7,7 @@ import express, { Request, Response } from 'express';
 import * as WebSocket from 'ws';
 
 import { users } from './fixtures/user/users';
+import { IRoom } from './models/room/IRoom';
 
 const log = debug('zigzag:Application');
 const PORT = process.env.PORT || 8999;
@@ -27,7 +28,13 @@ app.post('/room', (req: Request<{ id: string }>, res: Response) => {
 
   log(`post: /room/${id}`);
 
-  return res.send(JSON.stringify(user));
+  if (user) {
+    const room = {
+      id: user.id,
+      messages: user.messages
+    };
+    return res.send(JSON.stringify(room));
+  }
 });
 
 //initialize a simple http server
