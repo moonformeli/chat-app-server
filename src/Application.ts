@@ -6,7 +6,6 @@ import express from 'express';
 import * as WebSocket from 'ws';
 
 import { users } from './fixtures/user/users';
-import { IUser } from './models/user/IUser';
 
 const log = debug('zigzag:Application');
 const PORT = process.env.PORT || 8999;
