@@ -1,8 +1,9 @@
 import http from 'http';
 
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import debug from 'debug';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import * as WebSocket from 'ws';
 
 import { users } from './fixtures/user/users';
@@ -12,9 +13,21 @@ const PORT = process.env.PORT || 8999;
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.get('/list', (_, res) => {
+app.get('/list', (_: Request, res: Response) => {
+  log('get: /list');
   return res.send(JSON.stringify(users));
+});
+
+app.post('/room', (req: Request<{ id: string }>, res: Response) => {
+  const id = req.body?.id ?? null;
+  const user = users.find(user => user.id === id);
+
+  log(`post: /room/${id}`);
+
+  return res.send(JSON.stringify(user));
 });
 
 //initialize a simple http server
