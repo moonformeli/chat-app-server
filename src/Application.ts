@@ -29,9 +29,10 @@ app.post('/room', (req: Request<{ id: string }>, res: Response) => {
   log(`post: /room/${id}`);
 
   if (user) {
-    const room = {
+    const room: IRoom = {
       id: user.id,
-      messages: user.messages
+      messages: user.messages,
+      username: user.username
     };
     return res.send(JSON.stringify(room));
   }
