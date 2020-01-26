@@ -5,8 +5,9 @@ export interface IUser {
   id: string;
 }
 
-interface IMessage {
+export interface IMessage {
   isMe: boolean;
+  // id: string;
   message: string;
   createdAt: string;
   isRead: boolean;

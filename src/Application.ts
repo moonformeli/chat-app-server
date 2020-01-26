@@ -8,6 +8,8 @@ import * as WebSocket from 'ws';
 
 import { users } from './fixtures/user/users';
 import { IRoom } from './models/room/IRoom';
+import { IMessage } from './models/user/IUser';
+import { format, sortTime } from './utils/format';
 
 const log = debug('zigzag:Application');
 const PORT = process.env.PORT || 8999;
@@ -50,11 +52,46 @@ wss.on('connection', (ws: WebSocket) => {
     //log the received message and send it back to the client
     log('received: %s', message);
     ws.send(`Hello, you sent -> ${message}`);
+    // setTimeout(() => {
+    //   ws.send('MMM');
+    // }, 5000);
+  });
+});
+
+setInterval(() => {
+  const newMsg: IMessage = {
+    isMe: false,
+    message: '너 왜 자꾸 톡 안 읽어 ?',
+    createdAt: format('2020-01-26 19:26:23'),
+    isRead: false,
+    messageType: 'string'
+  };
+
+  const user = users.find(user => user.username === '구현모');
+
+  if (!user) {
+    return;
+  }
+
+  user.messages.push(newMsg);
+  user.messages.sort((msgA, msgB) => {
+    return sortTime(msgA.createdAt, msgB.createdAt);
   });
 
-  //send immediatly a feedback to the incoming connection
-  ws.send('Hi there, I am a WebSocket server');
-});
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(
+        JSON.stringify({
+          isMe: false,
+          message: '너 왜 자꾸 톡 안 읽어 ?',
+          createdAt: format('2020-01-26 19:26:23'),
+          isRead: false,
+          messageType: 'string'
+        })
+      );
+    }
+  });
+}, 3000);
 
 //start our server
 server.listen(PORT, () => {
