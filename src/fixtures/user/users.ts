@@ -23,6 +23,13 @@ export const users: IUser[] = [
     id: makeId(16),
     messages: [
       {
+        isMe: true,
+        message: '퇴근해보겠습니다.',
+        createdAt: format('2020-01-24 19:24:33'),
+        isRead: true,
+        messageType: 'string'
+      },
+      {
         isMe: false,
         message: '출근했니?',
         createdAt: format('2020-01-25 09:13:22'),
